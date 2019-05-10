@@ -29,16 +29,17 @@ public class JobIntentServiceExample extends JobIntentService {
     }
 
     @Override
-    protected void onHandleWork(@NonNull Intent intent) {
+    protected void onHandleWork(@NonNull final Intent intent) {
         Log.d(TAG, "onHandleWork: ");
-
 
         for (int i = 0; i < 10; i++) {
             Log.d(TAG, intent.getStringExtra("inputString") + "  i : " + i);
             if (isStopped()) return;
             SystemClock.sleep(500);
         }
+
     }
+
 
     @Override
     public void onDestroy() {
@@ -50,4 +51,6 @@ public class JobIntentServiceExample extends JobIntentService {
     public boolean onStopCurrentWork() {
         return super.onStopCurrentWork();
     }
+
+
 }

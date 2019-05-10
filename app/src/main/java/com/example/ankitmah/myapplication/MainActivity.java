@@ -12,9 +12,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.ankitmah.myapplication.login.ui.login.LoginActivity;
+import com.example.ankitmah.myapplication.myLogin.MyLoginActivity;
+
 public class MainActivity extends Activity implements View.OnClickListener {
     private static final String TAG = "MAIN_ACTIVITY";
-    EditText mEtIntentServiceInput, mEtForegroundService,mEtJobIntentServiceInput;
+    EditText mEtIntentServiceInput, mEtForegroundService, mEtJobIntentServiceInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +32,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     void setUpUI() {
         //intent service
-        Button btnStartIntentService, btnScheduleJob, btnCancelJob, btnStartForegroundService, btnStopForegroundService, btnStartJobIntentService;
+        Button btnStartIntentService, btnScheduleJob, btnCancelJob, btnStartForegroundService,
+                btnStopForegroundService, btnStartJobIntentService, btnStartLoginActivity,
+                btnStartMyLoginActivity;
 
 
         btnStartIntentService = findViewById(R.id.btn_start_intent_service);
@@ -51,6 +56,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
         mEtJobIntentServiceInput = findViewById(R.id.et_job_intent_service);
         btnStartJobIntentService.setOnClickListener(this);
 
+        btnStartLoginActivity = findViewById(R.id.btn_startLoginActivity);
+        btnStartLoginActivity.setOnClickListener(this);
+
+        btnStartMyLoginActivity = findViewById(R.id.btn_startMyLoginActivity);
+        btnStartMyLoginActivity.setOnClickListener(this);
 
 
     }
@@ -92,8 +102,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
         switch (viewId) {
             case R.id.btn_start_intent_service:
 
-                startActivity(new Intent(this,TestBottomNavigationActivity.class));
-                //startIntentService();
+                //startActivity(new Intent(this,TestBottomNavigationActivity.class));
+                startIntentService();
                 break;
 
             case R.id.btn_schedule_job:
@@ -116,8 +126,19 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 startJobIntentService();
                 break;
 
+            case R.id.btn_startLoginActivity:
+                startLoginActivity();
+                break;
+
+            case R.id.btn_startMyLoginActivity:
+                startMyLoginActivity();
+                break;
 
         }
+    }
+
+    private void startMyLoginActivity() {
+        startActivity(new Intent(this, MyLoginActivity.class));
     }
 
     void startIntentService() {
@@ -159,7 +180,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         intent.putExtra("input", mEtForegroundService.getText().toString());
 
 
-         /*startService will work while the app is still open, but if you want to start the service
+        /*startService will work while the app is still open, but if you want to start the service
          * while the app itself is in the background then you must use startForegroundService().
          * startForegroundService() tells the system to promote your service to foreground as
          * quickly as possible. and after calling this method you have a time window of 5 seconds to
@@ -206,7 +227,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
          * Unlike the ordinary startService(Intent), this method can be used at any time, regardless of
          * whether the app hosting the service is in a foreground state.
          * */
-        ContextCompat.startForegroundService(this,intent);
+        ContextCompat.startForegroundService(this, intent);
     }
 
     private void stopServiceInForeground() {
@@ -214,11 +235,15 @@ public class MainActivity extends Activity implements View.OnClickListener {
         stopService(intent);
     }
 
-    void startJobIntentService(){
+    void startJobIntentService() {
         Intent jobIntentServiceIntent = new Intent(this, JobIntentServiceExample.class);
-        jobIntentServiceIntent.putExtra("inputString",mEtJobIntentServiceInput.getText().toString());
+        jobIntentServiceIntent.putExtra("inputString", mEtJobIntentServiceInput.getText().toString());
         //ContextCompat.startForegroundService(this,jobIntentServiceIntent);
         JobIntentServiceExample.enqueWork(this, jobIntentServiceIntent);
+    }
+
+    void startLoginActivity() {
+        startActivity(new Intent(this, LoginActivity.class));
     }
 }
 
