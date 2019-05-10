@@ -34,9 +34,10 @@ public class LoginPresenterTest {
 
     @Test
     public void shouldShowErrorMessageWhenUsernameIsEmpty() throws Exception {
-        when(mLoginView.getUserName()).thenReturn("");
+        when(mLoginView.getUserName()).thenReturn("test");
         mLoginPresenter.onLoginClicked();
         verify(mLoginView).showUsernameError(R.string.username_error);
+
     }
 
     @Test
